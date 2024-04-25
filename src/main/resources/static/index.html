@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <!--Metadata-->
+    <meta charset="UTF-8">
+    <title>Introside</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        label {
+            display: inline-block;
+            width: 100px; /* Adjust width as needed */
+            text-align: left;
+            margin-right: 10px;
+        }
+        input {
+            width: 200px; /* Adjust width as needed */
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Øverste delen av siden -->
+    <header>
+        <h1>Header</h1>
+    </header>
+
+    <!-- Hovedinnhold -->
+    <main>
+        <form id="purchaseForm" novalidate>
+            <select id="choose">
+                <option value="option1">Option 1</option>
+                <option value="option2">Option 2</option>
+                <option value="option3">Option 3</option>
+            </select>
+
+            <br>
+            <label for="nr">Antall </label>
+            <input type="number" id="nr">
+
+            <br>
+            <label for="firstName">Fornavn </label>
+            <input type="text" id="firstName">
+
+            <br>
+            <label for="lastName">Etternavn </label>
+            <input type="text" id="lastName">
+
+            <br>
+            <label for="phoneNr">Telefonnr </label>
+            <input type="tel" id="phoneNr">
+
+            <br>
+            <label for="eMail">Epost </label>
+            <input type="email" id="eMail">
+
+            <br>
+            <button id="buy">Kjøp billett</button>
+        </form>
+
+        <h2>Subheader: All</h2>
+        <div id="itemsList"></div>
+
+        <button id="delete">Slett alle billettene</button>
+    </main>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
