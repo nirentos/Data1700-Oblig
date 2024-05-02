@@ -1,18 +1,20 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-    <!--Metadata-->
+    <!-- Metadata -->
     <meta charset="UTF-8">
     <title>Introside</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Styling -->
     <style>
+        /* Style for labels */
         label {
             display: inline-block;
             width: 100px; /* Adjust width as needed */
             text-align: left;
             margin-right: 10px;
         }
+        /* Style for input fields */
         input {
             width: 200px; /* Adjust width as needed */
             box-sizing: border-box;
@@ -20,53 +22,63 @@
         }
     </style>
 </head>
-
 <body>
-    <!-- Øverste delen av siden -->
+    <!-- Header section -->
     <header>
         <h1>Header</h1>
     </header>
 
-    <!-- Hovedinnhold -->
+    <!-- Main content section -->
     <main>
+        <!-- Purchase form -->
         <form id="purchaseForm" novalidate>
+            <!-- Dropdown for choosing film -->
             <select id="choose">
-                <option value="option1">Option 1</option>
-                <option value="option2">Option 2</option>
-                <option value="option3">Option 3</option>
+                <option value="option1">Velg film her</option>
+                <option value="option2">Terminator</option>
+                <option value="option3">Hunger Games</option>
             </select>
 
             <br>
+            <!-- Input field for quantity -->
             <label for="nr">Antall </label>
             <input type="number" id="nr">
 
             <br>
+            <!-- Input field for first name -->
             <label for="firstName">Fornavn </label>
             <input type="text" id="firstName">
 
             <br>
+            <!-- Input field for last name -->
             <label for="lastName">Etternavn </label>
             <input type="text" id="lastName">
 
             <br>
+            <!-- Input field for phone number -->
             <label for="phoneNr">Telefonnr </label>
             <input type="tel" id="phoneNr">
 
             <br>
+            <!-- Input field for email -->
             <label for="eMail">Epost </label>
             <input type="email" id="eMail">
 
             <br>
+            <!-- Button to submit purchase -->
             <button id="buy">Kjøp billett</button>
         </form>
 
+        <!-- Subheader section -->
         <h2>Subheader: All</h2>
+        <!-- Container for displaying purchased items -->
         <div id="itemsList"></div>
 
+        <!-- Button to delete all purchased items -->
         <button id="delete">Slett alle billettene</button>
     </main>
 
+    <!-- JavaScript file -->
     <script src="script.js"></script>
-
 </body>
 </html>

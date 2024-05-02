@@ -6,19 +6,24 @@ function handleBuyButtonClick(event) {
     // Prevent default form submission
     event.preventDefault();
 
-    // Get values from input fields
+    // Get values from input fields and dropdown
+    const chooseInput = document.getElementById("choose");
     const nrInput = document.getElementById("nr");
     const firstNameInput = document.getElementById("firstName");
     const lastNameInput = document.getElementById("lastName");
     const phoneNrInput = document.getElementById("phoneNr");
     const eMailInput = document.getElementById("eMail");
 
-    // Validate input fields
+    // Validate input fields and dropdown
     const inputsToValidate = [nrInput, firstNameInput, lastNameInput, phoneNrInput, eMailInput];
     const inputsWithErrors = inputsToValidate.filter(input => !validateInput(input));
+    if (!validateInput(chooseInput)) {
+        inputsWithErrors.push(chooseInput);
+    }
 
     if (inputsWithErrors.length === 0) {
         // If all input fields are valid, proceed
+        const choose = chooseInput.value; // Get selected option
         const nr = nrInput.value;
         const firstName = firstNameInput.value;
         const lastName = lastNameInput.value;
@@ -26,13 +31,16 @@ function handleBuyButtonClick(event) {
         const eMail = eMailInput.value;
 
         // Create object and push it to array
-        itemsArray.push({ nr, firstName, lastName, phoneNr, eMail });
+        itemsArray.push({ choose, nr, firstName, lastName, phoneNr, eMail });
 
         // Display the updated array
         displayItemsArray();
 
         // Clear input fields
         clearInputFields();
+
+        // Clear existing error messages
+        clearErrorMessages();
     } else {
         // If any input field is invalid, show error messages
         showErrorMessages(inputsWithErrors);
@@ -50,7 +58,9 @@ function displayItemsArray() {
     // Create list items for each object in the array
     itemsArray.forEach(item => {
         const listItem = document.createElement("li");
-        listItem.textContent = `Antall: ${item.nr}, Fornavn: ${item.firstName}, Etternavn: ${item.lastName}, Telefonnr: ${item.phoneNr}, Email: ${item.eMail}`;
+        const chooseOption = document.querySelector(`#choose option[value="${item.choose}"]`);
+        const chooseText = chooseOption ? chooseOption.textContent : "Unknown Option";
+        listItem.textContent = `Film: ${chooseText}, Antall: ${item.nr}, Fornavn: ${item.firstName}, Etternavn: ${item.lastName}, Telefonnr: ${item.phoneNr}, Email: ${item.eMail}`;
         itemsList.appendChild(listItem);
     });
 
@@ -64,7 +74,7 @@ function validateInput(input) {
     if (value === '') {
         return false; // Empty input is considered invalid
     }
-    
+
     // Custom validation logic for each input field
     switch (input.id) {
         case 'nr':
@@ -76,6 +86,8 @@ function validateInput(input) {
             return /^\d{8}$/.test(value); // Check if it's an 8-digit number
         case 'eMail':
             return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value); // Check if it's a valid email address
+        case 'choose':
+            return value !== "option1"; // Check if selected option is not the first option
         default:
             return true; // Default to true for other input fields
     }
@@ -88,13 +100,32 @@ function showErrorMessages(inputsWithErrors) {
 
     // Create and append error messages for each input field with errors
     inputsWithErrors.forEach(input => {
-        console.log("Validity of input:", input.validity.valid);
-        console.log("Validation message:", input.validationMessage);
         const errorMessage = document.createElement("span");
-        errorMessage.className = "error-message";
-        errorMessage.textContent = input.validationMessage;
+        errorMessage.className = "error-message"; // Adding class for styling
+        errorMessage.textContent = createErrorMessageText(input);
+        errorMessage.style.color = "red"; // Set text color to red
         input.parentNode.insertBefore(errorMessage, input.nextSibling);
     });
+}
+
+// Function to create error message text
+function createErrorMessageText(input) {
+    switch (input.id) {
+        case 'nr':
+            return "Må oppgi antall";
+        case 'firstName':
+            return "Må oppgi fornavn";
+        case 'lastName':
+            return "Må oppgi etternavn";
+        case 'phoneNr':
+            return "Må oppgi telefonnummer";
+        case 'eMail':
+            return "Må oppgi epost";
+        case 'choose':
+            return "Må velge en film";
+        default:
+            return "";
+    }
 }
 
 // Function to clear error messages
@@ -105,6 +136,7 @@ function clearErrorMessages() {
     });
 }
 
+// Function to clear input fields
 function clearInputFields() {
     document.getElementById("nr").value = "";
     document.getElementById("firstName").value = "";
