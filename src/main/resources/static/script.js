@@ -7,12 +7,12 @@ function handleBuyButtonClick(event) {
     event.preventDefault();
 
     // Get values from input fields and dropdown
-    const chooseInput = document.getElementById("choose");
-    const nrInput = document.getElementById("nr");
-    const firstNameInput = document.getElementById("firstName");
-    const lastNameInput = document.getElementById("lastName");
-    const phoneNrInput = document.getElementById("phoneNr");
-    const eMailInput = document.getElementById("eMail");
+    const chooseInput = $("#choose");
+    const nrInput = $("#nr");
+    const firstNameInput = $("#firstName");
+    const lastNameInput = $("#lastName");
+    const phoneNrInput = $("#phoneNr");
+    const eMailInput = $("#eMail");
 
     // Validate input fields and dropdown
     const inputsToValidate = [nrInput, firstNameInput, lastNameInput, phoneNrInput, eMailInput];
@@ -23,12 +23,12 @@ function handleBuyButtonClick(event) {
 
     if (inputsWithErrors.length === 0) {
         // If all input fields are valid, proceed
-        const choose = chooseInput.value; // Get selected option
-        const nr = nrInput.value;
-        const firstName = firstNameInput.value;
-        const lastName = lastNameInput.value;
-        const phoneNr = phoneNrInput.value;
-        const eMail = eMailInput.value;
+        const choose = chooseInput.val(); // Get selected option
+        const nr = nrInput.val();
+        const firstName = firstNameInput.val();
+        const lastName = lastNameInput.val();
+        const phoneNr = phoneNrInput.val();
+        const eMail = eMailInput.val();
 
         // Create object and push it to array
         itemsArray.push({ choose, nr, firstName, lastName, phoneNr, eMail });
@@ -49,34 +49,34 @@ function handleBuyButtonClick(event) {
 
 // Function to display the items array under the subheader
 function displayItemsArray() {
-    const subheader = document.querySelector("h2");
-    const itemsList = document.createElement("ul");
+    const subheader = $("h2");
+    const itemsList = $("<ul>");
 
     // Clear previous items
-    subheader.nextElementSibling.innerHTML = '';
+    subheader.next().html('');
 
     // Create list items for each object in the array
     itemsArray.forEach(item => {
-        const listItem = document.createElement("li");
-        const chooseOption = document.querySelector(`#choose option[value="${item.choose}"]`);
-        const chooseText = chooseOption ? chooseOption.textContent : "Unknown Option";
-        listItem.textContent = `Film: ${chooseText}, Antall: ${item.nr}, Fornavn: ${item.firstName}, Etternavn: ${item.lastName}, Telefonnr: ${item.phoneNr}, Email: ${item.eMail}`;
-        itemsList.appendChild(listItem);
+        const listItem = $("<li>");
+        const chooseOption = $(`#choose option[value="${item.choose}"]`);
+        const chooseText = chooseOption.length ? chooseOption.text() : "Ukjent Filmvalg";
+        listItem.text(`Film: ${chooseText}, Antall: ${item.nr}, Fornavn: ${item.firstName}, Etternavn: ${item.lastName}, Telefonnr: ${item.phoneNr}, Email: ${item.eMail}`);
+        itemsList.append(listItem);
     });
 
     // Append the list under the subheader
-    subheader.parentNode.insertBefore(itemsList, subheader.nextElementSibling);
+    subheader.parent().find("#itemsList").before(itemsList);
 }
 
 // Function to validate input field
 function validateInput(input) {
-    const value = input.value.trim();
+    const value = input.val().trim();
     if (value === '') {
         return false; // Empty input is considered invalid
     }
 
     // Custom validation logic for each input field
-    switch (input.id) {
+    switch (input.attr('id')) {
         case 'nr':
             return !isNaN(value); // Check if it's a valid number
         case 'firstName':
@@ -100,17 +100,17 @@ function showErrorMessages(inputsWithErrors) {
 
     // Create and append error messages for each input field with errors
     inputsWithErrors.forEach(input => {
-        const errorMessage = document.createElement("span");
-        errorMessage.className = "error-message"; // Adding class for styling
-        errorMessage.textContent = createErrorMessageText(input);
-        errorMessage.style.color = "red"; // Set text color to red
-        input.parentNode.insertBefore(errorMessage, input.nextSibling);
+        const errorMessage = $("<span>");
+        errorMessage.addClass("error-message"); // Adding class for styling
+        errorMessage.text(createErrorMessageText(input));
+        errorMessage.css("color", "red"); // Set text color to red
+        input.after(errorMessage);
     });
 }
 
 // Function to create error message text
 function createErrorMessageText(input) {
-    switch (input.id) {
+    switch (input.attr('id')) {
         case 'nr':
             return "Må oppgi antall";
         case 'firstName':
@@ -130,19 +130,11 @@ function createErrorMessageText(input) {
 
 // Function to clear error messages
 function clearErrorMessages() {
-    const errorMessages = document.querySelectorAll(".error-message");
-    errorMessages.forEach(errorMessage => {
-        errorMessage.parentNode.removeChild(errorMessage);
-    });
+    $(".error-message").remove();
 }
 
-// Function to clear input fields
 function clearInputFields() {
-    document.getElementById("nr").value = "";
-    document.getElementById("firstName").value = "";
-    document.getElementById("lastName").value = "";
-    document.getElementById("phoneNr").value = "";
-    document.getElementById("eMail").value = "";
+    $("#nr, #firstName, #lastName, #phoneNr, #eMail").val("");
 }
 
 // Function to handle the delete button click event
@@ -155,7 +147,7 @@ function handleDeleteButtonClick() {
 }
 
 // Attach event listener to the buy button
-document.getElementById("buy").addEventListener("click", handleBuyButtonClick);
+$("#buy").click(handleBuyButtonClick);
 
 // Attach event listener to the delete button
-document.getElementById("delete").addEventListener("click", handleDeleteButtonClick);
+$("#delete").click(handleDeleteButtonClick);
